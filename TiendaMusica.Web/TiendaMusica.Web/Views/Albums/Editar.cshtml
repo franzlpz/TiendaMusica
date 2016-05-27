@@ -1,0 +1,56 @@
+﻿@model TiendaMusica.Logica.ViewModels.AlbumsEditarViewModel
+
+@{
+    ViewBag.Title = "Editar Album";
+}
+
+
+@using (Html.BeginForm("Editar", "Albums", FormMethod.Post, new { encType = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <h2>Editar Album - @Model.Artist</h2>
+    @Html.EditorFor(model => model.Artist, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    @Html.EditorFor(model => model.AlbumId, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div style="float:left;margin-right:20px">
+                    <img width="120" height="120" src="~/Archivos/Thumbnails/@Model.ImagenAlbum" />
+                   
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label>Seleccione un archivo</label>
+                <input type="file" name="archivo" class="form-control"  />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Grabar" class="btn btn-default" />
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Lista Albums", "Listar")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<TiendaMusica.Logica.ViewModels.AlbumsEditarViewModel>
+
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+
+<div class="col-md-4">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Buscar Album...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Buscar</button>
+        </span>
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagenAlbum)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+
+                <td>
+                    <div style="float:left;margin-right:20px">
+                        <img width="120" height="120" src="~/Archivos/Thumbnails/@item.ImagenAlbum" />
+
+                    </div>
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Editar", new { artista = item.Artist, album = item.Title }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
