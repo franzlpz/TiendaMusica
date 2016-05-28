@@ -26,7 +26,9 @@ namespace TiendaMusica.Logica
                     AlbumId = data.AlbumId,
                     Title = data.Title,
                     Artist = data.Artist.Name,
-                    ImagenAlbum = data.ImagenAlbum   
+                    ImagenAlbum = data.ImagenAlbum,
+                    AudioAlbum = data.AudioAlbum,
+                    VideoAlbum = data.VideoAlbum   
                            
                 };
                
@@ -42,6 +44,8 @@ namespace TiendaMusica.Logica
                 var modelo = db.Albums.SingleOrDefault(a => a.AlbumId == oAlbum.AlbumId);
                 modelo.Title = oAlbum.Title;
                 modelo.ImagenAlbum = oAlbum.ImagenAlbum;
+                modelo.AudioAlbum = oAlbum.AudioAlbum;
+                modelo.VideoAlbum = oAlbum.VideoAlbum;
                 db.Albums.Update(modelo);
                 db.Commit();
                 
@@ -62,7 +66,10 @@ namespace TiendaMusica.Logica
             { AlbumId = o.AlbumId,
              Artist = o.Artist.Name,
              Title = o.Title,
-             ImagenAlbum = o.ImagenAlbum }).ToList();
+             ImagenAlbum = o.ImagenAlbum,
+             AudioAlbum = o.AudioAlbum,
+             VideoAlbum = o.VideoAlbum
+            }).Take(10).ToList();
         }
     }
 }

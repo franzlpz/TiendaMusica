@@ -18,13 +18,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Artist)
+               Artista
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+               Titulo de Album
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImagenAlbum)
+               Canción
+            </th>
+            <th>
+                Video
+            </th>
+            <th>
+                Caratula
             </th>
             <th></th>
         </tr>
@@ -39,13 +45,29 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
+                <td>
+                    <div style="float:left;margin-right:20px">
+                        <audio controls>
+                            <source src="~/Archivos/mp3/@item.AudioAlbum" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </td>
+                <td>
+                    <div style="float:left;margin-right:20px">
+                        <video width="100" height="100" controls>
+                            <source src="~/Archivos/mp4/@item.VideoAlbum" type="video/mp4">
+                        </video>
 
+                    </div>
+                </td>
                 <td>
                     <div style="float:left;margin-right:20px">
                         <img width="120" height="120" src="~/Archivos/Thumbnails/@item.ImagenAlbum" />
 
                     </div>
                 </td>
+              
+               
                 <td>
                     @Html.ActionLink("Editar", "Editar", new { artista = item.Artist, album = item.Title }) |
                     @Html.ActionLink("Detalle", "Detalle", new { artista = item.Artist, album = item.Title }) |

@@ -86,29 +86,48 @@ namespace TiendaMusica.Web.Controllers
 
         #region .:: POST ::.
         [HttpPost]
-        public ActionResult Editar(AlbumsEditarViewModel modelo, HttpPostedFileBase archivo)
+        public ActionResult Editar(AlbumsEditarViewModel modelo, HttpPostedFileBase archivo, HttpPostedFileBase video, HttpPostedFileBase audio)
         {
+
+            string nombreArchivo = "", nombreAudio = "", nombreVideo = "";
+
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Hubo un Error");
                 return View(modelo);
             }
 
-            string nombreArchivo = archivo.FileName.ObtenerMD5() + Path.GetExtension(archivo.FileName);
-
-            if (EsImagen(archivo.ContentType))
+            if (archivo != null)
             {
-
-                modelo.ImagenAlbum = GrabarImagen(archivo, nombreArchivo);
-                servicioAlbums.Actualizar(modelo);
-
-                return View(modelo);
-
+                nombreArchivo = archivo.FileName.ObtenerMD5() + Path.GetExtension(archivo.FileName);
+                if (EsImagen(archivo.ContentType))
+                    modelo.ImagenAlbum = GrabarImagen(archivo, nombreArchivo);
             }
             else
             {
                 archivo.SaveAs(Path.Combine(Server.MapPath("~/Archivos"), nombreArchivo));
             }
+            if (audio!=null)
+            {
+                 nombreAudio = audio.FileName.ObtenerMD5() + Path.GetExtension(audio.FileName);
+                
+                if (EsAudio(audio.ContentType))
+                    modelo.AudioAlbum = GrabarAudio(audio, nombreAudio);
+            }
+            else if (video!=null)
+            {
+                 nombreVideo = video.FileName.ObtenerMD5() + Path.GetExtension(video.FileName);
+                if (EsVideo(video.ContentType))
+                    modelo.VideoAlbum = GrabarVideo(video, nombreVideo);
+            }
+
+            if (modelo.VideoAlbum !=null || modelo.ImagenAlbum != null || modelo.AudioAlbum !=null)
+            {
+                servicioAlbums.Actualizar(modelo);
+                return View(modelo);
+            }
+          
+
 
             return RedirectToAction("Editar", "Albums");
 
@@ -131,7 +150,14 @@ namespace TiendaMusica.Web.Controllers
         {
             return (contentType.Contains("image"));
         }
-
+        private bool EsVideo(string contentType)
+        {
+            return (contentType.Contains("video/mp4"));
+        }
+        private bool EsAudio(string contentType)
+        {
+            return (contentType.Contains("audio/mpeg"));
+        }
         private string GrabarImagen(HttpPostedFileBase archivo, string nombreArchivo)
         {
             string archivoThumbnails = string.Empty;
@@ -145,6 +171,35 @@ namespace TiendaMusica.Web.Controllers
             archivoThumbnails = Path.Combine(Server.MapPath("~/Archivos/Thumbnails"), "thumbnail_" + nombreArchivo);
 
             return "thumbnail_" + nombreArchivo;
+
+
+        }
+
+        private string GrabarVideo(HttpPostedFileBase archivo, string nombreArchivo)
+        {
+            string archivoThumbnails = string.Empty;
+
+            MemoryStream ms = new MemoryStream();
+            archivo.InputStream.CopyTo(ms);
+            AudioVideo video = new AudioVideo(ms,
+                archivo.FileName, archivo.ContentType, Server.MapPath("~/Archivos/mp4"));
+            video.Grabar(nombreArchivo);
+
+            return  nombreArchivo;
+
+
+        }
+
+        private string GrabarAudio(HttpPostedFileBase archivo, string nombreArchivo)
+        {
+
+            MemoryStream ms = new MemoryStream();
+            archivo.InputStream.CopyTo(ms);
+            AudioVideo audio = new AudioVideo(ms,
+                archivo.FileName, archivo.ContentType, Server.MapPath("~/Archivos/mp3"));
+            audio.Grabar(nombreArchivo);
+
+            return nombreArchivo;
 
 
         }

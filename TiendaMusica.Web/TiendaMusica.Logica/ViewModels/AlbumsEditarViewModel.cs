@@ -16,6 +16,12 @@ namespace TiendaMusica.Logica.ViewModels
 
         public string ImagenAlbum { get; set; }
 
+        public string VideoAlbum { get; set; }
+
+        public string AudioAlbum { get; set; }
+
+
+
 
     }
 }
