@@ -28,14 +28,25 @@ namespace TiendaMusica.Web.Controllers
             AlbumsEditarViewModel albums;
             try
             {
-                albums = servicioAlbums.Buscar(artista, album);
-                if (albums.ImagenAlbum == null) albums.ImagenAlbum = "default.png";
+
+                if (!String.IsNullOrEmpty(artista) || !String.IsNullOrEmpty(album))
+                {
+                    albums = servicioAlbums.Buscar(artista, album);
+                    if (albums.ImagenAlbum == null) albums.ImagenAlbum = "default.png";
+                    return View(albums);
+                }
+                else
+                {
+
+                    return RedirectToAction("Index", "Home");
+                }
+               
             }
             catch (Exception ex)
             {
-                return RedirectToAction("AlbumNoFount", "Albums");
+                return RedirectToAction("Index", "Home");
             }
-            return View(albums);
+            
 
         }
 
@@ -54,6 +65,23 @@ namespace TiendaMusica.Web.Controllers
 
             
         }
+
+        public ActionResult Detalle()
+        {
+            try
+            {
+                IEnumerable<AlbumsEditarViewModel> listaAlbums = servicioAlbums.Listar();
+                return View(listaAlbums);
+            }
+            catch (Exception ex)
+            {
+
+                return RedirectToAction("AlbumNoFount", "Albums");
+            }
+
+
+        }
+
         #endregion
 
         #region .:: POST ::.

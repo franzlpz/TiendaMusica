@@ -48,7 +48,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Editar", new { artista = item.Artist, album = item.Title }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Detalle", "Detalle", new { artista = item.Artist, album = item.Title }) |
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>

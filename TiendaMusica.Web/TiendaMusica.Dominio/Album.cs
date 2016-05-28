@@ -20,6 +20,10 @@ namespace TiendaMusica.Dominio
 
         public string ImagenAlbum { get; set; }
 
+        public string AudioAlbum { get; set; }
+
+        public string VideoAlbum { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Track> Track { get; set; }
       
